@@ -187,6 +187,14 @@ component usb_serial is
   constant STATUS_REG_ADR : std_logic_vector(0 to 1) := "10";
   constant CTRL_REG_ADR   : std_logic_vector(0 to 1) := "11";
   
+  --  ADDRESS MAP
+  --  ===========
+  --  RX FIFO      base + $0
+  --  TX FIFO      base + $4
+  --  CONTROL REG  base + $8
+  --  STATUS REG   base + $C
+
+
   -- Read Only
   signal status_Reg : std_logic_vector(7 downto 0);
   -- bit 0 rx_Data_Present
@@ -194,15 +202,18 @@ component usb_serial is
   -- bit 2 tx_Buffer_Empty
   -- bit 3 tx_Buffer_Full
   -- bit 4 interrupt flag
+  -- bit 5 not used
+  -- bit 6 online flag
+  -- bit 7 suspend flag  
   
   -- Write Only
-  -- bit 0   Reset_TX_FIFO
-  -- bit 1   Reset_RX_FIFO
+  -- bit 0   Reset_TX_FIFO -- not used
+  -- bit 1   Reset_RX_FIFO -- not used
   -- bit 2-3 Dont'Care
   -- bit 4   enable_rxinterrupts
   -- bit 5   Dont'Care
   -- bit 6   enable_txinterrupts
-  -- bit 7   tx_enable
+  -- bit 7   tx_enable -- not used
   
   signal enable_txinterrupts : std_logic;
   signal enable_rxinterrupts : std_logic;
@@ -360,8 +371,6 @@ begin  -- architecture akre
   status_Reg(5) <= '0';
   status_Reg(6) <= online;
   status_Reg(7) <= suspend;
---  status_Reg(6) <= '0';
---  status_Reg(7) <= '0';
 
                     
   -----------------------------------------------------------------------------

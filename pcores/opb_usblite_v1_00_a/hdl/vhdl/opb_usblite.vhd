@@ -29,14 +29,14 @@ entity OPB_USBLITE is
     C_OPB_DWIDTH : integer                   := 32;
     C_BASEADDR   : std_logic_vector(0 to 31) := X"FFFF_0000";
     C_HIGHADDR   : std_logic_vector          := X"FFFF_00FF";
-    C_SYSRST  :       std_logic := '1';
-    C_PHYMODE :       std_logic := '1';
-    C_VENDORID :      std_logic_vector(15 downto 0) := X"1234";
-    C_PRODUCTID :     std_logic_vector(15 downto 0) := X"5678";
-    C_VERSIONBCD :    std_logic_vector(15 downto 0) := X"0200";
-    C_SELFPOWERED :   boolean := false;
-    C_RXBUFSIZE_BITS: integer range 7 to 12 := 10;
-    C_TXBUFSIZE_BITS: integer range 7 to 12 := 10
+    C_SYSRST  :       std_logic := '1';  -- enable external reset
+    C_PHYMODE :       std_logic := '1';  -- phy mode
+    C_VENDORID :      std_logic_vector(15 downto 0) := X"1234"; -- VID
+    C_PRODUCTID :     std_logic_vector(15 downto 0) := X"5678"; -- PID
+    C_VERSIONBCD :    std_logic_vector(15 downto 0) := X"0200"; -- device version
+    C_SELFPOWERED :   boolean := false; -- self or bus powered
+    C_RXBUFSIZE_BITS: integer range 7 to 12 := 10; -- size of rx buf (2^10 = 1024 bytes)
+    C_TXBUFSIZE_BITS: integer range 7 to 12 := 10  -- size of tx buf (2^10 = 1024 bytes)
     );
   port (
     -- Global signals
@@ -61,12 +61,12 @@ entity OPB_USBLITE is
     Interrupt : out std_logic;
 
     -- USB signals
-		txdp : out std_logic;
-		txdn : out std_logic;
-		txoe : out std_logic;
-		rxd : in std_logic;
-		rxdp : in std_logic;
-		rxdn : in std_logic   
+		txdp : out std_logic; -- connect to VPO
+		txdn : out std_logic; -- connect to VMO/FSEO
+		txoe : out std_logic; -- connect to OE
+		rxd : in std_logic;   -- connect to RCV
+		rxdp : in std_logic;  -- connect to VP
+		rxdn : in std_logic   -- connect to VM
     );
 
 end entity OPB_USBLITE;
